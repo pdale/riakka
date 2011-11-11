@@ -43,15 +43,15 @@ private[riakka] trait WhenAware {
 }
 
 /* This behaviour gives us fine-grained control on dealing with low-level exceptions */
-private[riakka] trait RiakkaExceptionHandler extends Http {
-  abstract override def when[T](check: Int => Boolean)(handler: Handler[T]): T = {
-    try {
-      super.when(check)(handler)
-    } catch {
-      case StatusCode(304, _) => throw NotModified
-      case StatusCode(404, _) => throw new NoSuchElementException
-    }
-  }
+private[riakka] trait RiakkaExceptionHandler extends dispatch.Http {
+//  override def when[T](check: Int => Boolean)(handler: Handler[T]): T = {
+//    try {
+//      super.when(check)(handler)
+//    } catch {
+//      case StatusCode(304, _) => throw NotModified
+//      case StatusCode(404, _) => throw new NoSuchElementException
+//    }
+// }
 }
 
 abstract class RiakkaException extends RuntimeException

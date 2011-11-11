@@ -1,10 +1,11 @@
 package riakka
 
+import dispatch._
 import net.liftweb.json._
-import JsonAST._
-import JsonDSL._
-import JsonParser._
-import Extraction._
+import net.liftweb.json.JsonAST.{concat,render}
+import net.liftweb.json.JsonDSL._
+import net.liftweb.json.JsonParser.{parse,parseOpt}
+import net.liftweb.json.Extraction._
 import java.io._
 
 object Jiak {
@@ -59,7 +60,7 @@ class Jiak(val hostname: String, val port: Int, val jiak_base: String) extends L
   }
 
   def save_with_response(metadata: %, obj: JObject): (%, JObject) = {
-    val handler = db / metadata.id <:< Map("Content-Type" -> "application/json") <<? Map("returnbody" -> true) <<< tuple_to_json(metadata, obj)
+    val handler = db / metadata.id <:< Map("Content-Type" -> "application/json") <<? Map("returnbody" -> "true") <<< tuple_to_json(metadata, obj)
     val response = http(handler as_str)
     parse(response)
   }
